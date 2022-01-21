@@ -1,0 +1,119 @@
+﻿@model UsuarioModel
+@{
+
+}
+
+<div class="modal-dialog" role="document" id="bodyAltaModificacionUsuario">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div class="modal-body">
+            @if (Model.accion.Equals(TablaGeneral.Acciones.MODIFICACION))
+            {
+                <h4 class="modal-title">Modificar usuario interno</h4>
+            }
+            else
+            {
+                <h4 class="modal-title">Registrar usuario interno</h4>
+            }
+            <br />
+            @using (Html.BeginForm("AltaModificacionUsuario", "Cuenta", new { }, FormMethod.Post, false, new
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "bodyAltaModificacionUsuario",
+                OnBegin = "onBegin",
+                OnSuccess = "onSuccess"
+            }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(m => m.CodUsuario)
+                @Html.HiddenFor(m => m.accion)
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TxtNombre)
+                            @Html.TextBoxFor(m => m.TxtNombre, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(m => m.TxtNombre, null, new { @class = "help-block" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TxtApellido)
+                            @Html.TextBoxFor(m => m.TxtApellido, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(m => m.TxtApellido, null, new { @class = "help-block" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TxtUser)
+                            @Html.TextBoxFor(m => m.TxtUser, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(m => m.TxtUser, null, new { @class = "help-block" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TxtPassword)
+                            @Html.PasswordFor(m => m.TxtPassword, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(m => m.TxtPassword, null, new { @class = "help-block" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.NroDoc)
+                            @Html.TextBoxFor(m => m.NroDoc, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(m => m.NroDoc, null, new { @class = "help-block" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.CodRol)
+                            @Html.DropDownListFor(m => m.CodRol, new SelectList(Helper.GetRolesLista(), "Value", "Text"), new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(m => m.CodRol, null, new { @class = "help-block" })
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                @if (Model.accion.Equals(TablaGeneral.Acciones.MODIFICACION))
+                {
+                    <button type="submit" class="btn btn-success">Modificar usuario</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-success">Registrar usuario</button>
+                }
+
+            }
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+
+    onBegin = function () {
+        ProgressShow();
+    }
+
+    onSuccess = function (result) {
+        if (result.Url) {
+            $('#modalAltaModificacionUsuario').modal("toggle");
+            window.parent.location.href = result.Url;
+        } else {
+            ProgressHide();
+        }
+    }
+
+
+</script>
+

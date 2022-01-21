@@ -1,0 +1,50 @@
+﻿@model ABMUsuarios
+@{
+    <div class="container bg-light">
+        <div class="col-md-12 text-center">
+            <a href="javascript:void(0);" onclick="url2modal('@Url.Action("AltaModificacionUsuario", "Cuenta", new { })', 'AltaModificacionUsuario');" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Agregar usuario">Agregar usuario</a>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>NroDoc</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TUsers user in Model.users)
+                {
+                    <tr>
+                        <td>@user.CodUsuario</td>
+                        <td>@user.TxtUser</td>
+                        <td>@user.TxtNombre</td>
+                        <td>@user.TxtApellido</td>
+                        <td>@user.NroDoc</td>
+                        <td>@(user.CodRol==1?"Administrador":"Cliente")</td>
+                        <td>
+                            <a href="javascript:void(0);" onclick="url2modal('@Url.Action("AltaModificacionUsuario", "Cuenta", new {  usuarioID = user.CodUsuario })', 'AltaModificacionUsuario');" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Editar usuario"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a href="javascript:void(0);" onclick="confirmToSubmit('Eliminar usuario', 'Esta acción no se puede revertir.', 'formBaja@(user.CodUsuario)')" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Eliminar usuario"><span class="glyphicon glyphicon-trash"></span></a>
+                            @using (Html.BeginForm("BajaUsuarioInterno", "Cuenta", new { usuarioID = user.CodUsuario }, FormMethod.Post, false, new { style = "display:none;", id = "formBaja" + user.CodUsuario })) { }
+                        </td>
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+}
+
+@section scripts{
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">*@
+    <script src="~/js/TestCrudAmedia.js"></script>
+}

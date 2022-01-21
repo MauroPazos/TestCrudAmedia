@@ -1,0 +1,19 @@
+﻿@using TestCrudAmedia.Helpers
+@{
+    ViewData["Title"] = "Home TestCrudAmedia";
+
+    if (Helper.tienePermiso(User.Identity.Name, TablaGeneral.RolesUsuario.Admin))
+}
+
+<div class="text-center">
+    @if (Helper.tienePermiso(User.Identity.Name, TablaGeneral.RolesUsuario.Admin))
+    {
+        <h1 class="display-4">¡Bienvenido @User.Identity.Name, nuestro admin favorito!</h1>
+    }
+    else
+    {
+        <h1 class="display-4">¡Hola @User.Identity.Name, nuestro cliente favorito!</h1>
+    }
+
+
+</div>

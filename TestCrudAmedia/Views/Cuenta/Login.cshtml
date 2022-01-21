@@ -1,0 +1,23 @@
+﻿@model LoginModel
+@{
+
+    using (Html.BeginForm("Login", "Cuenta", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            @Html.LabelFor(m => m.user)
+            @Html.TextBoxFor(m => m.user, new { @class = "form-control input-lg" })
+            @Html.ValidationMessageFor(m => m.user, null, new { @class = "help-block" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.pass)
+            @Html.PasswordFor(m => m.pass, new { @class = "form-control input-lg" })
+            @Html.ValidationMessageFor(m => m.pass, null, new { @class = "help-block" })
+        </div>
+        @Html.HiddenFor(m => m.returnUrl)
+
+        <input type="hidden" name="returnUrl" id="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+        <button type="submit" id="buttonLogin" class="btn btn-primary btn-lg btn-block">Ingresar</button>
+    }
+}
